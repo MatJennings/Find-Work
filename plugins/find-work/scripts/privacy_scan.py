@@ -42,6 +42,32 @@ def scan_text(label: str, text: str, forbidden: list[tuple[str, re.Pattern[str]]
                 issues.append(f"{label}:{line_number}: forbidden term {term!r}")
 
 
+def scan_zip_bytes(
+    label: str,
+    raw: bytes,
+    forbidden: list[tuple[str, re.Pattern[str]]],
+    issues: list[str],
+    allow_binary_artifacts: bool,
+) -> None:
+    try:
+        with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            for member in archive.infolist():
+                if member.is_dir():
+                    continue
+                member_label = f"{label}:{member.filename}"
+                scan_text(f"path {member_label}", member.filename, forbidden, issues)
+                member_raw = archive.read(member)
+                suffix = Path(member.filename).suffix.lower()
+                if suffix in BINARY_ARTIFACT_SUFFIXES and not allow_binary_artifacts:
+                    issues.append(f"{member_label}: binary document or image requires explicit release review")
+                elif suffix in OFFICE_SUFFIXES:
+                    scan_zip_bytes(member_label, member_raw, forbidden, issues, allow_binary_artifacts)
+                else:
+                    scan_text(member_label, member_raw.decode("latin-1", errors="ignore"), forbidden, issues)
+    except zipfile.BadZipFile:
+        issues.append(f"{label}: ZIP archive could not be unpacked")
+
+
 def scan_git(
     root: Path,
     forbidden: list[tuple[str, re.Pattern[str]]],
@@ -143,6 +169,8 @@ def main() -> int:
         try:
             if suffix in TEXT_SUFFIXES:
                 scan_text(relative, path.read_text(encoding="utf-8", errors="replace"), forbidden, issues)
+            elif suffix == ".zip":
+                scan_zip_bytes(relative, path.read_bytes(), forbidden, issues, args.allow_binary_artifacts)
             elif suffix in BINARY_ARTIFACT_SUFFIXES and not args.allow_binary_artifacts:
                 issues.append(f"{relative}: binary document or image requires explicit release review")
             elif suffix in OFFICE_SUFFIXES:
