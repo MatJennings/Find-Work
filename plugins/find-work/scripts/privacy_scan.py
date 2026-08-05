@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import io
 import re
 import subprocess
 import sys
@@ -41,7 +42,12 @@ def scan_text(label: str, text: str, forbidden: list[tuple[str, re.Pattern[str]]
                 issues.append(f"{label}:{line_number}: forbidden term {term!r}")
 
 
-def scan_git(root: Path, forbidden: list[tuple[str, re.Pattern[str]]], issues: list[str]) -> None:
+def scan_git(
+    root: Path,
+    forbidden: list[tuple[str, re.Pattern[str]]],
+    issues: list[str],
+    allow_binary_artifacts: bool,
+) -> None:
     git_dir = root / ".git"
     if not git_dir.exists():
         return
@@ -100,7 +106,21 @@ def scan_git(root: Path, forbidden: list[tuple[str, re.Pattern[str]]], issues: l
             issues.append(f"git blob {object_id}: could not inspect historical content")
             continue
         label = f"git blob {object_id} {historical_path}".strip()
-        scan_text(label, blob.stdout.decode("latin-1", errors="ignore"), forbidden, issues)
+        suffix = Path(historical_path).suffix.lower()
+        if suffix in BINARY_ARTIFACT_SUFFIXES and not allow_binary_artifacts:
+            issues.append(f"{label}: historical binary document or image requires explicit release review")
+            continue
+        if suffix in OFFICE_SUFFIXES:
+            try:
+                with zipfile.ZipFile(io.BytesIO(blob.stdout)) as archive:
+                    for member in archive.infolist():
+                        if member.filename.endswith((".xml", ".rels")):
+                            text = archive.read(member).decode("utf-8", errors="replace")
+                            scan_text(f"{label}:{member.filename}", text, forbidden, issues)
+            except zipfile.BadZipFile:
+                issues.append(f"{label}: historical Office artifact could not be unpacked")
+        else:
+            scan_text(label, blob.stdout.decode("latin-1", errors="ignore"), forbidden, issues)
 
 
 def main() -> int:
@@ -137,7 +157,7 @@ def main() -> int:
             issues.append(f"{relative}: could not inspect ({exc})")
 
     if args.check_git_history:
-        scan_git(root, forbidden, issues)
+        scan_git(root, forbidden, issues, args.allow_binary_artifacts)
 
     if issues:
         print("Privacy scan failed:", file=sys.stderr)
