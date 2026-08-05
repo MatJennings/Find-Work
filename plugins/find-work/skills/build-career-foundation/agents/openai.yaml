@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Career Foundation"
+  short_description: "Turn work history into an evidence base"
+  default_prompt: "Use $build-career-foundation to import my prior materials and build my verified career foundation."

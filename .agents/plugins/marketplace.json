@@ -1,0 +1,20 @@
+{
+  "name": "find-work-starter",
+  "interface": {
+    "displayName": "Find Work Starter"
+  },
+  "plugins": [
+    {
+      "name": "find-work",
+      "source": {
+        "source": "local",
+        "path": "./plugins/find-work"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

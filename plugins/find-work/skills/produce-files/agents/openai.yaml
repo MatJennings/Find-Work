@@ -1,0 +1,4 @@
+interface:
+  display_name: "Produce Files"
+  short_description: "Create approved final application files"
+  default_prompt: "Use $produce-files to create the final approved application files for this role."

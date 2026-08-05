@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Jobs"
+  short_description: "Find and verify suitable open roles"
+  default_prompt: "Use $find-jobs to search for current roles matching my approved target profile."

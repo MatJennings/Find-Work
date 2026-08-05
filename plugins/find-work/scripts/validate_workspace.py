@@ -1,0 +1,134 @@
+#!/usr/bin/env python3
+"""Validate the structure and core schemas of a Find Work workspace."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import re
+import sys
+from pathlib import Path
+
+
+REQUIRED_FILES = [
+    ".find-work-version",
+    "AGENTS.md",
+    "START_HERE.md",
+    "applications.csv",
+    "profile/onboarding_status.md",
+    "profile/environment_capabilities.md",
+    "profile/candidate_profile.md",
+    "profile/job_target_profile.md",
+    "profile/resume_preferences.md",
+    "profile/cover_letter_preferences.md",
+    "profile/confidentiality_preferences.md",
+    "experience/chronology.csv",
+    "experience/evidence_ledger.csv",
+    "experience/skills_and_methods.md",
+    "experience/education_and_credentials.md",
+    "sources/imported/index.md",
+    "job_search/roles.csv",
+    "job_search/reviewed_roles.md",
+    "job_search/search_log.md",
+]
+
+REQUIRED_DIRS = [
+    "experience/employers",
+    "sources/imported",
+    "sources/authoritative",
+    "sources/style_examples",
+    "applications/in_progress",
+    "applications/files_produced",
+]
+
+CSV_HEADERS = {
+    "applications.csv": ["company", "role", "official_url", "status", "date_files_produced", "folder", "notes"],
+    "experience/chronology.csv": ["organization", "title", "start_date", "end_date", "location", "source", "status", "notes"],
+    "experience/evidence_ledger.csv": ["claim_id", "organization", "claim", "evidence_status", "source", "disclosure_status", "notes"],
+    "job_search/roles.csv": ["company", "role", "official_url", "requisition_id", "date_found", "date_verified", "status", "recommendation", "location", "compensation", "fit_summary", "gaps", "last_checked", "notes"],
+}
+
+EVIDENCE_VALUES = {"user_attested", "document_supported", "publicly_corroborated", "needs_clarification"}
+DISCLOSURE_VALUES = {"approved_external", "approval_required", "confidential", "do_not_use"}
+APPLICATION_VALUES = {"Reviewing", "Drafting", "Approved", "Files produced"}
+ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def read_rows(path: Path) -> tuple[list[str], list[dict[str, str]]]:
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        return list(reader.fieldnames or []), list(reader)
+
+
+def valid_optional_date(value: str) -> bool:
+    return not value.strip() or bool(ISO_DATE.fullmatch(value.strip()))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("root", type=Path)
+    parser.add_argument("--allow-missing-version", action="store_true")
+    args = parser.parse_args()
+    root = args.root.expanduser().resolve()
+    errors: list[str] = []
+
+    for relative in REQUIRED_FILES:
+        if relative == ".find-work-version" and args.allow_missing_version:
+            continue
+        if not (root / relative).is_file():
+            errors.append(f"Missing file: {relative}")
+    for relative in REQUIRED_DIRS:
+        if not (root / relative).is_dir():
+            errors.append(f"Missing directory: {relative}")
+
+    data: dict[str, list[dict[str, str]]] = {}
+    for relative, expected in CSV_HEADERS.items():
+        path = root / relative
+        if not path.is_file():
+            continue
+        actual, rows = read_rows(path)
+        data[relative] = rows
+        if actual != expected:
+            errors.append(f"Unexpected CSV header in {relative}: {actual}")
+
+    claims = data.get("experience/evidence_ledger.csv", [])
+    claim_ids = [row.get("claim_id", "").strip() for row in claims if row.get("claim_id", "").strip()]
+    if len(claim_ids) != len(set(claim_ids)):
+        errors.append("Duplicate claim IDs in experience/evidence_ledger.csv")
+    for number, row in enumerate(claims, start=2):
+        if row.get("evidence_status") not in EVIDENCE_VALUES:
+            errors.append(f"Invalid evidence_status at evidence ledger row {number}")
+        if row.get("disclosure_status") not in DISCLOSURE_VALUES:
+            errors.append(f"Invalid disclosure_status at evidence ledger row {number}")
+
+    for number, row in enumerate(data.get("applications.csv", []), start=2):
+        status = row.get("status", "")
+        if status and status not in APPLICATION_VALUES:
+            errors.append(f"Invalid application status at applications.csv row {number}: {status}")
+        if not valid_optional_date(row.get("date_files_produced", "")):
+            errors.append(f"Invalid production date at applications.csv row {number}")
+        if status == "Files produced" and "applications/files_produced/" not in row.get("folder", "").replace("\\", "/"):
+            errors.append(f"Files produced row {number} does not point to applications/files_produced/")
+        if status == "Files produced" and not row.get("date_files_produced", "").strip():
+            errors.append(f"Files produced row {number} is missing date_files_produced")
+
+    for relative, date_fields in {
+        "experience/chronology.csv": ["start_date", "end_date"],
+        "job_search/roles.csv": ["date_found", "date_verified", "last_checked"],
+    }.items():
+        for number, row in enumerate(data.get(relative, []), start=2):
+            for field in date_fields:
+                if not valid_optional_date(row.get(field, "")):
+                    errors.append(f"Invalid {field} at {relative} row {number}")
+
+    if errors:
+        print("Workspace validation failed:", file=sys.stderr)
+        for error in errors:
+            print(f"  {error}", file=sys.stderr)
+        return 1
+    print(f"Workspace validation passed: {root}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

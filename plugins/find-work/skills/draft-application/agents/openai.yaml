@@ -1,0 +1,4 @@
+interface:
+  display_name: "Draft Application"
+  short_description: "Draft truthful tailored application wording"
+  default_prompt: "Use $draft-application to prepare the complete resume and cover letter wording for this role."

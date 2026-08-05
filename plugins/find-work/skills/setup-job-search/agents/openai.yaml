@@ -1,0 +1,4 @@
+interface:
+  display_name: "Set Up Job Search"
+  short_description: "Create and audit a job-search workspace"
+  default_prompt: "Use $setup-job-search to initialize this folder as my private job-search workspace."

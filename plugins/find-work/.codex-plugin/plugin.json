@@ -1,0 +1,24 @@
+{
+  "name": "find-work",
+  "version": "0.1.0",
+  "description": "Build a truthful career foundation, find and verify jobs, draft applications, and produce final files.",
+  "author": {
+    "name": "Find Work contributors"
+  },
+  "license": "MIT",
+  "keywords": ["career", "jobs", "resume", "applications"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Find Work",
+    "shortDescription": "A private, evidence-based job-search workspace.",
+    "longDescription": "Find Work guides a user from source intake and career-history review through job discovery, role evaluation, application drafting, and approved file production.",
+    "developerName": "Find Work contributors",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Set up my private job-search workspace.",
+      "Build my career foundation from prior resumes.",
+      "Find jobs that match my approved target profile."
+    ]
+  }
+}

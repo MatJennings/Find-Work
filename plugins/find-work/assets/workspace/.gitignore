@@ -1,0 +1,11 @@
+Thumbs.db
+.DS_Store
+*.tmp
+*.bak
+~$*
+.~lock.*#
+tmp/
+.tmp/
+rendered/
+__pycache__/
+*.pyc

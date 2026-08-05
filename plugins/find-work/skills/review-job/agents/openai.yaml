@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Job"
+  short_description: "Verify and evaluate one specific role"
+  default_prompt: "Use $review-job to evaluate this job against my career foundation and target profile."
