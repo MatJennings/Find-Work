@@ -1,1 +1,1 @@
-company,role,official_url,requisition_id,date_found,date_verified,status,recommendation,location,compensation,fit_summary,gaps,last_checked,notes
+company,role,official_url,requisition_id,date_found,date_verified,posting_date_or_age,status,recommendation,target_relevance,job_location,work_arrangement,corporate_headquarters,compensation,compensation_source,travel,company_size,ownership,fit_summary,gaps,application_status,last_checked,notes

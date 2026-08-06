@@ -5,6 +5,7 @@
 - Official URL:
 - Requisition ID:
 - Date verified:
+- Posting date or age:
 - Live-board evidence:
 - Application-path evidence:
 - Status:
@@ -15,9 +16,17 @@
 - Required qualifications:
 - Preferred qualifications:
 - Compensation:
+- Compensation source:
 - Location and work arrangement:
 - Travel:
-- Company profile:
+- Corporate headquarters:
+- Company size:
+- Ownership:
+- Business and customers:
+- Problem and mission:
+- Target-profile relevance:
+- Stability, funding, growth, or restructuring concerns:
+- Ethical concerns:
 
 ## Match map
 

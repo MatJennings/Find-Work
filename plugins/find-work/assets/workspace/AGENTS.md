@@ -42,7 +42,7 @@ Read the approved files in `profile/` before applying preferences. Do not infer 
 
 ## Application state
 
-The terminal project state is `Files produced`. Move the complete application folder from `applications/in_progress/` to `applications/files_produced/` only after successful generation and verification. Do not track Ready to apply, Submitted, or Applied as separate states, and do not claim to have submitted an application.
+Store each application permanently at `applications/<Company>/`. Record workflow state in `applications.csv`, `job_search/roles.csv`, and the company record, never in parent-directory names. The terminal project state is `Files produced`. Do not track Ready to apply, Submitted, or Applied as separate states, and do not claim to have submitted an application.
 
 ## Local customization
 

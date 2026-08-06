@@ -8,6 +8,7 @@
 - Verification evidence:
 - Recommendation:
 - Status:
+- Permanent folder:
 - Wording approved:
 - Date files produced:
 - Final files:

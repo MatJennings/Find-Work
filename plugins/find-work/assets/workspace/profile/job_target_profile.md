@@ -9,6 +9,18 @@
 ## Industries and company types
 
 
+## Lower-interest business or product models
+
+
+## Excluded business or product models
+
+
+## Named exceptions to exclusions
+
+
+## Scope notes and false-positive safeguards
+
+
 ## Location, remote work, and travel
 
 

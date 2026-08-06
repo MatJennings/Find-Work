@@ -37,15 +37,14 @@ REQUIRED_DIRS = [
     "sources/imported",
     "sources/authoritative",
     "sources/style_examples",
-    "applications/in_progress",
-    "applications/files_produced",
+    "applications",
 ]
 
 CSV_HEADERS = {
     "applications.csv": ["company", "role", "official_url", "status", "date_files_produced", "folder", "notes"],
     "experience/chronology.csv": ["organization", "title", "start_date", "end_date", "location", "source", "status", "notes"],
     "experience/evidence_ledger.csv": ["claim_id", "organization", "claim", "evidence_status", "source", "disclosure_status", "notes"],
-    "job_search/roles.csv": ["company", "role", "official_url", "requisition_id", "date_found", "date_verified", "status", "recommendation", "location", "compensation", "fit_summary", "gaps", "last_checked", "notes"],
+    "job_search/roles.csv": ["company", "role", "official_url", "requisition_id", "date_found", "date_verified", "posting_date_or_age", "status", "recommendation", "target_relevance", "job_location", "work_arrangement", "corporate_headquarters", "compensation", "compensation_source", "travel", "company_size", "ownership", "fit_summary", "gaps", "application_status", "last_checked", "notes"],
 }
 
 EVIDENCE_VALUES = {"user_attested", "document_supported", "publicly_corroborated", "needs_clarification"}
@@ -107,8 +106,13 @@ def main() -> int:
             errors.append(f"Invalid application status at applications.csv row {number}: {status}")
         if not valid_optional_date(row.get("date_files_produced", "")):
             errors.append(f"Invalid production date at applications.csv row {number}")
-        if status == "Files produced" and "applications/files_produced/" not in row.get("folder", "").replace("\\", "/"):
-            errors.append(f"Files produced row {number} does not point to applications/files_produced/")
+        folder = row.get("folder", "").replace("\\", "/").strip("/")
+        if folder and (folder.startswith("applications/in_progress/") or folder.startswith("applications/files_produced/")):
+            errors.append(f"Application row {number} uses a status-based folder")
+        if folder and (not folder.startswith("applications/") or folder.count("/") != 1):
+            errors.append(f"Application row {number} does not point to applications/<Company>")
+        if status == "Files produced" and not folder:
+            errors.append(f"Files produced row {number} is missing its permanent application folder")
         if status == "Files produced" and not row.get("date_files_produced", "").strip():
             errors.append(f"Files produced row {number} is missing date_files_produced")
 

@@ -11,6 +11,10 @@ import sys
 from pathlib import Path
 
 
+ROLES_V1_FIELDS = ["company", "role", "official_url", "requisition_id", "date_found", "date_verified", "status", "recommendation", "location", "compensation", "fit_summary", "gaps", "last_checked", "notes"]
+ROLES_V2_FIELDS = ["company", "role", "official_url", "requisition_id", "date_found", "date_verified", "posting_date_or_age", "status", "recommendation", "target_relevance", "job_location", "work_arrangement", "corporate_headquarters", "compensation", "compensation_source", "travel", "company_size", "ownership", "fit_summary", "gaps", "application_status", "last_checked", "notes"]
+
+
 def copy_missing_scaffold(source: Path, target: Path) -> None:
     for item in source.rglob("*"):
         relative = item.relative_to(source)
@@ -62,6 +66,117 @@ def migrate_evidence_v0(path: Path) -> bool:
     return True
 
 
+def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        return list(reader.fieldnames or []), list(reader)
+
+
+def write_csv(path: Path, fields: list[str], rows: list[dict[str, str]]) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def application_move_plan(target: Path) -> list[tuple[Path, Path]] | None:
+    applications = target / "applications"
+    plan: list[tuple[Path, Path]] = []
+    destinations: set[Path] = set()
+    for status_name in ("in_progress", "files_produced"):
+        source_root = applications / status_name
+        if not source_root.is_dir():
+            continue
+        unexpected = [item for item in source_root.iterdir() if item.is_file() and item.name != ".gitkeep"]
+        if unexpected:
+            print(f"Cannot migrate unexpected files in {source_root}:", file=sys.stderr)
+            for item in unexpected:
+                print(f"  {item.name}", file=sys.stderr)
+            return None
+        for source in sorted((item for item in source_root.iterdir() if item.is_dir()), key=lambda item: item.name.lower()):
+            destination = applications / source.name
+            if destination.exists() or destination in destinations:
+                print(f"Cannot migrate application folder because the destination is ambiguous: {destination}", file=sys.stderr)
+                return None
+            destinations.add(destination)
+            plan.append((source, destination))
+    return plan
+
+
+def migrate_roles_v1_to_v2(path: Path) -> bool:
+    if not path.is_file():
+        return True
+    fields, rows = read_csv(path)
+    if fields == ROLES_V2_FIELDS:
+        return True
+    if fields != ROLES_V1_FIELDS:
+        print(f"Cannot migrate unsupported roles header: {fields}", file=sys.stderr)
+        return False
+    backup = path.with_name("roles.v1.backup.csv")
+    if not backup.exists():
+        shutil.copy2(path, backup)
+    migrated = []
+    for row in rows:
+        migrated.append({
+            **row,
+            "posting_date_or_age": "",
+            "target_relevance": "",
+            "job_location": row.get("location", ""),
+            "work_arrangement": "",
+            "corporate_headquarters": "",
+            "compensation_source": "",
+            "travel": "",
+            "company_size": "",
+            "ownership": "",
+            "application_status": "",
+        })
+    write_csv(path, ROLES_V2_FIELDS, migrated)
+    return True
+
+
+def migrate_applications_v1_to_v2(target: Path) -> bool:
+    plan = application_move_plan(target)
+    if plan is None:
+        return False
+
+    applications_csv = target / "applications.csv"
+    fields: list[str] = []
+    rows: list[dict[str, str]] = []
+    if applications_csv.is_file():
+        fields, rows = read_csv(applications_csv)
+        expected = ["company", "role", "official_url", "status", "date_files_produced", "folder", "notes"]
+        if fields != expected:
+            print(f"Cannot migrate unsupported applications header: {fields}", file=sys.stderr)
+            return False
+
+    if not migrate_roles_v1_to_v2(target / "job_search" / "roles.csv"):
+        return False
+
+    if applications_csv.is_file():
+        backup = applications_csv.with_name("applications.v1.backup.csv")
+        if not backup.exists():
+            shutil.copy2(applications_csv, backup)
+        for row in rows:
+            folder = (row.get("folder") or "").replace("\\", "/")
+            for prefix in ("applications/in_progress/", "applications/files_produced/"):
+                if folder.startswith(prefix):
+                    row["folder"] = f"applications/{folder[len(prefix):]}"
+                    break
+
+    for source, destination in plan:
+        shutil.move(str(source), str(destination))
+    if applications_csv.is_file():
+        write_csv(applications_csv, fields, rows)
+    for status_name in ("in_progress", "files_produced"):
+        legacy_root = target / "applications" / status_name
+        marker = legacy_root / ".gitkeep"
+        if marker.is_file():
+            marker.unlink()
+        if legacy_root.is_dir() and not any(legacy_root.iterdir()):
+            legacy_root.rmdir()
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--target", required=True, type=Path)
@@ -83,18 +198,24 @@ def main() -> int:
     if current < 1:
         if not migrate_evidence_v0(target / "experience" / "evidence_ledger.csv"):
             return 1
-        copy_missing_scaffold(source, target)
-        validation = subprocess.run(
-            [sys.executable, str(Path(__file__).with_name("validate_workspace.py")), str(target), "--allow-missing-version"],
-            check=False,
-        )
-        if validation.returncode != 0:
-            print("Workspace migration did not validate. The version marker was not advanced.", file=sys.stderr)
-            return 1
-        version_file.write_text("1\n", encoding="utf-8")
         current = 1
 
-    print(f"Workspace is current at schema version {current}.")
+    if current < 2:
+        if not migrate_applications_v1_to_v2(target):
+            return 1
+        current = 2
+
+    copy_missing_scaffold(source, target)
+    validation = subprocess.run(
+        [sys.executable, str(Path(__file__).with_name("validate_workspace.py")), str(target), "--allow-missing-version"],
+        check=False,
+    )
+    if validation.returncode != 0:
+        print("Workspace migration did not validate. The version marker was not advanced.", file=sys.stderr)
+        return 1
+    version_file.write_text(f"{latest}\n", encoding="utf-8")
+
+    print(f"Workspace is current at schema version {latest}.")
     return 0
 
 

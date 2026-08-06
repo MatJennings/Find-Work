@@ -52,6 +52,8 @@ A customized workspace should override the plugin through its local `AGENTS.md` 
 
 When an update changes workspace schemas, run `$setup-job-search` against the existing workspace. It uses the versioned, non-destructive migration script before continuing.
 
+Schema version 2 keeps every company folder permanently at `applications/<Company>/`, expands the role tracker with verification and company-context fields, and updates existing tracker paths without changing the terminal `Files produced` state. The migration preserves backup CSVs before rewriting them and stops on ambiguous folder collisions.
+
 An older standalone workspace can migrate later by installing this plugin and removing or renaming local skills with the same names. Review that migration before making it because local rules may intentionally differ.
 
 ## Privacy
