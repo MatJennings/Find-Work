@@ -1,19 +1,34 @@
 ---
 name: find-jobs
-description: Find, refresh, verify, deduplicate, and rank current job openings against an approved candidate target profile. Use for a new search, today's jobs, recurring searches, role refreshes, or updates to job-search trackers across any profession or seniority.
+description: Find, refresh, verify, deduplicate, and rank current job openings against an approved candidate target profile. Use for quick searches, recurring searches, comprehensive searches, portfolio refreshes, or job-search tracker updates across any profession or seniority.
 ---
 
 # Find Jobs
 
-1. Read `AGENTS.md`, `profile/job_target_profile.md`, `experience/chronology.csv`, `experience/evidence_ledger.csv`, `job_search/roles.csv`, and `applications.csv`.
-2. Search broadly enough to include direct and plausible transferable fits. Apply the candidate's approved exclusions and constraints without inventing unstated preferences.
-3. Treat job boards, aggregators, cached pages, and search results as discovery sources only.
-4. Before recommending a role as active, confirm the exact title or requisition on the employer's currently rendered careers board and confirm a functional application path. Use a rendered browser when necessary. Mark a role `removed` when the live board omits it even if an old detail URL resolves.
-5. If browsing is unavailable, ask the user to inspect the official board and application path. Record the role as `uncertain` until that evidence is supplied. Never convert discovery evidence into official verification.
-6. Capture company, role, official URL, requisition ID, discovery and verification dates, posting age, status, recommendation, relevance to the target profile, job location, work arrangement, corporate headquarters, compensation and source, travel, company size, ownership, fit evidence, gaps, application status, and verification notes.
-7. Deduplicate by company, title, requisition ID, and official URL.
-8. Before presenting a current or all-role ranking, reverify every tracked role that is not already at terminal application status. Require `last_checked` to equal the search date. Exclude rejected, closed, removed, uncertain, unsuccessfully reverified, and `Files produced` roles before calculating counts and rank order.
-9. Rank verified plausible roles with short tradeoff explanations. Separate direct evidence, transferable evidence, and gaps.
-10. Update `job_search/roles.csv`, `job_search/reviewed_roles.md`, and `job_search/search_log.md` with ISO dates. Preserve prior decisions and search history, including completed searches with no new matches.
+## Context
 
-Do not draft application materials or create document files during discovery.
+1. Read `AGENTS.md`, the approved target profile, the evidence summary needed for screening, `job_search/roles.csv`, and `applications.csv`.
+2. Read only recent relevant search-log entries and matching serious reviews unless a full audit or historical comparison requires more.
+
+## Search modes
+
+- **Quick search**, the default for an ordinary current search: check high-yield general, employer, applicant-tracking-system, and target-relevant specialist sources. Verify plausible new roles and rank only new findings. Do not reverify the entire portfolio.
+- **Comprehensive search**: cover the general boards, direct employers, applicant-tracking systems, specialist communities, relevant portfolio boards or recruiters, and any recurring sources recorded in the target profile. Reverify the active shortlist before presenting a complete current ranking.
+- **Portfolio refresh**: use for all-current-role requests, complete rankings, and tracker audits. Reverify every role that could appear in the ranking on the same date.
+
+Record completed, partial, paywalled, unavailable, and blocked source passes in `search_log.md`. Preserve completed searches with no new matches.
+
+## Screen, verify, rank, and record
+
+1. Search broadly enough to include direct and plausible transferable fits. Apply approved exclusions without inventing preferences.
+2. Screen role shape before deep research. Use the candidate's desired ownership, responsibility, seniority, work arrangement, compensation, and exclusion criteria.
+3. Treat job boards, aggregators, cached pages, indexed text, and search results as discovery only.
+4. Verify only plausible roles. Classify a role `active` when its official employer role-detail page contains the role details and a current Apply control, application link, or functional form. The exact title does not also need to appear on the openings index. A generic applicant-tracking-system shell is insufficient. Use a rendered browser when needed.
+5. Mark a role `removed` when the detail page is gone, redirects to an error or openings index, states that the role is unavailable, or lacks a current application path. Mark inconclusive roles `uncertain`. Exclude uncertain roles from recommendations and rankings.
+6. Deduplicate by company, title, requisition ID, and official URL.
+7. Keep preliminary discovery records compact. For serious roles, capture the official URL, verification date and method, posting age, status, location and work arrangement, headquarters, compensation and source, travel, company size and ownership, business and customers, target relevance, fit, gaps, recommendation, and application status.
+8. Label ranking scope. A new-findings ranking does not require reverifying unrelated roles. A complete current ranking requires same-day reverification of every included active role.
+9. Update `job_search/roles.csv` as the canonical structured tracker and append a concise search-log entry. Update `reviewed_roles.md` only for a serious review or meaningful change.
+10. For an automated run, notify the user only when at least one new plausible role is verified, unless the user chooses another notification policy. Always record the run.
+
+Do not draft application materials, create document files, or change application state during discovery.

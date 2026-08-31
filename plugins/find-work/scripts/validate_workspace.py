@@ -27,6 +27,9 @@ REQUIRED_FILES = [
     "experience/skills_and_methods.md",
     "experience/education_and_credentials.md",
     "sources/imported/index.md",
+    "sources/authoritative/approved_resume_openings.md",
+    "sources/authoritative/approved_cover_letter_openings.md",
+    "sources/authoritative/approved_application_answers.md",
     "job_search/roles.csv",
     "job_search/reviewed_roles.md",
     "job_search/search_log.md",
@@ -41,15 +44,42 @@ REQUIRED_DIRS = [
 ]
 
 CSV_HEADERS = {
-    "applications.csv": ["company", "role", "official_url", "status", "date_files_produced", "folder", "notes"],
-    "experience/chronology.csv": ["organization", "title", "start_date", "end_date", "location", "source", "status", "notes"],
-    "experience/evidence_ledger.csv": ["claim_id", "organization", "claim", "evidence_status", "source", "disclosure_status", "notes"],
-    "job_search/roles.csv": ["company", "role", "official_url", "requisition_id", "date_found", "date_verified", "posting_date_or_age", "status", "recommendation", "target_relevance", "job_location", "work_arrangement", "corporate_headquarters", "compensation", "compensation_source", "travel", "company_size", "ownership", "fit_summary", "gaps", "application_status", "last_checked", "notes"],
+    "applications.csv": [
+        "company", "role", "official_url", "date_verified",
+        "corporate_headquarters", "status", "applied_date", "resume_status",
+        "cover_letter_status", "date_files_produced", "follow_up_date", "folder",
+        "notes",
+    ],
+    "experience/chronology.csv": [
+        "organization", "title", "start_date", "end_date", "location", "source",
+        "status", "notes",
+    ],
+    "experience/evidence_ledger.csv": [
+        "claim_id", "organization", "claim", "evidence_status", "source",
+        "disclosure_status", "notes",
+    ],
+    "job_search/roles.csv": [
+        "company", "role", "official_url", "requisition_id", "date_found",
+        "date_verified", "posting_date_or_age", "status", "recommendation",
+        "target_relevance", "job_location", "work_arrangement",
+        "corporate_headquarters", "compensation", "compensation_source", "travel",
+        "company_size", "ownership", "fit_summary", "gaps", "application_status",
+        "last_checked", "notes",
+    ],
 }
 
-EVIDENCE_VALUES = {"user_attested", "document_supported", "publicly_corroborated", "needs_clarification"}
-DISCLOSURE_VALUES = {"approved_external", "approval_required", "confidential", "do_not_use"}
-APPLICATION_VALUES = {"Reviewing", "Drafting", "Approved", "Files produced"}
+EVIDENCE_VALUES = {
+    "user_attested", "document_supported", "publicly_corroborated",
+    "needs_clarification",
+}
+DISCLOSURE_VALUES = {
+    "approved_external", "approval_required", "confidential", "do_not_use",
+}
+APPLICATION_VALUES = {
+    "Not started", "Drafting", "Approved", "Ready to apply", "Applied",
+    "Will not apply", "Removed",
+}
+ROLE_VALUES = {"active", "uncertain", "closed", "removed"}
 ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
@@ -104,17 +134,37 @@ def main() -> int:
         status = row.get("status", "")
         if status and status not in APPLICATION_VALUES:
             errors.append(f"Invalid application status at applications.csv row {number}: {status}")
-        if not valid_optional_date(row.get("date_files_produced", "")):
-            errors.append(f"Invalid production date at applications.csv row {number}")
+        for field in ("date_verified", "applied_date", "date_files_produced", "follow_up_date"):
+            if not valid_optional_date(row.get(field, "")):
+                errors.append(f"Invalid {field} at applications.csv row {number}")
         folder = row.get("folder", "").replace("\\", "/").strip("/")
-        if folder and (folder.startswith("applications/in_progress/") or folder.startswith("applications/files_produced/")):
+        if folder and (
+            folder.startswith("applications/in_progress/")
+            or folder.startswith("applications/files_produced/")
+        ):
             errors.append(f"Application row {number} uses a status-based folder")
         if folder and (not folder.startswith("applications/") or folder.count("/") != 1):
             errors.append(f"Application row {number} does not point to applications/<Company>")
-        if status == "Files produced" and not folder:
-            errors.append(f"Files produced row {number} is missing its permanent application folder")
-        if status == "Files produced" and not row.get("date_files_produced", "").strip():
-            errors.append(f"Files produced row {number} is missing date_files_produced")
+        if status in {"Ready to apply", "Applied"} and not folder:
+            errors.append(f"{status} row {number} is missing its permanent application folder")
+        if status == "Ready to apply" and not row.get("date_files_produced", "").strip():
+            errors.append(f"Ready to apply row {number} is missing date_files_produced")
+        if status == "Applied" and not row.get("applied_date", "").strip():
+            notes = row.get("notes", "").lower()
+            if "date unknown" not in notes and "date not confirmed" not in notes:
+                errors.append(
+                    f"Applied row {number} needs applied_date or an explicit unknown-date note"
+                )
+
+    for number, row in enumerate(data.get("job_search/roles.csv", []), start=2):
+        status = row.get("status", "")
+        if status and status not in ROLE_VALUES:
+            errors.append(f"Invalid role status at job_search/roles.csv row {number}: {status}")
+        application_status = row.get("application_status", "")
+        if application_status and application_status not in APPLICATION_VALUES:
+            errors.append(
+                f"Invalid application_status at job_search/roles.csv row {number}: {application_status}"
+            )
 
     for relative, date_fields in {
         "experience/chronology.csv": ["start_date", "end_date"],

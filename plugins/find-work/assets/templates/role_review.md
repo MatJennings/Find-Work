@@ -2,22 +2,29 @@
 
 ## Verification
 
-- Official URL:
+- Official role-detail URL:
 - Requisition ID:
 - Date verified:
+- Verification method:
 - Posting date or age:
-- Live-board evidence:
+- Role-detail evidence:
 - Application-path evidence:
 - Status:
+
+## Recommendation
+
+Apply | Research Further | Maybe | Reject
 
 ## Role and company
 
 - Responsibilities:
 - Required qualifications:
 - Preferred qualifications:
+- Role shape and direct ownership:
 - Compensation:
 - Compensation source:
-- Location and work arrangement:
+- Job location:
+- Work arrangement and time-zone limits:
 - Travel:
 - Corporate headquarters:
 - Company size:
@@ -30,11 +37,14 @@
 
 ## Match map
 
-| Requirement | Direct evidence | Transferable evidence | Gap or risk | Prohibited claim |
+| Requirement or responsibility | Direct evidence | Transferable evidence | Gap or risk | Prohibited or unsupported claim |
 |---|---|---|---|---|
-
-## Recommendation
-
 
 ## Drafting notes
 
+
+## Decision log
+
+- Date:
+- Decision:
+- Notes:

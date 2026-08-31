@@ -4,12 +4,26 @@
 - Role:
 - Official URL:
 - Requisition ID:
+- Corporate headquarters:
 - Date verified:
-- Verification evidence:
+- Verification method:
+- Application-path evidence:
 - Recommendation:
 - Status:
+- Applied date:
 - Permanent folder:
-- Wording approved:
+- Resume status:
+- Cover-letter status:
+- Resume wording approved:
+- Cover-letter wording approved:
+- Resume opening approved:
+- Cover-letter opening approved:
+- Application-answer wording approved:
 - Date files produced:
-- Final files:
+- Final resume files:
+- Final cover-letter files:
+- Deterministic validation:
+- Validation warnings or incomplete checks:
+- User visual review:
+- Follow-up date:
 - Notes:

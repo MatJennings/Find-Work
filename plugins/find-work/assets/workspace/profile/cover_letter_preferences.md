@@ -1,11 +1,21 @@
 # Cover-Letter Preferences
 
-- Default length:
+- Authoritative cover-letter master path:
+- Preferred length:
 - Tone:
 - Preferred opening style:
+- Role-title or `Re:` line format:
 - Preferred closing style:
 - Formatting:
-- Final formats:
+- Punctuation preferences:
 - Situations where no letter is needed:
 - Gap-framing preferences:
+- Final base filename: `<Full Application Name> Cover Letter`
+- Final formats: PDF and DOCX unless changed below
+- Retain editable DOCX: yes unless changed below
+- Metadata title: `<Full Application Name> Cover Letter`
+- Metadata subject: `Cover Letter of <Full Application Name>`
+- Metadata author and last editor: `<Full Application Name>`
+- Metadata keywords: `<Full Application Name>, Cover Letter`
+- AI visual QA preference: user review by default; AI page inspection only when requested
 - Other rules:

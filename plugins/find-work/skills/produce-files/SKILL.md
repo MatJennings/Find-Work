@@ -1,26 +1,29 @@
 ---
 name: produce-files
-description: Create, generate, export, or finalize approved resume, cover-letter, and application files. Use only after complete wording is approved or when the user unambiguously requests final file production from the current complete wording. The terminal project state is Files produced.
+description: Create, export, produce, or finalize approved application PDFs and editable DOCX files. Use after complete wording is approved or when the user clearly requests production from the current complete wording. Validate files, set Ready to apply, and provide official and local links.
 ---
 
 # Produce Files
 
 ## Approval gate
 
-1. Read `AGENTS.md`, the application record, `approved_application_wording.md`, writing preferences, and authoritative document sources.
-2. Confirm complete wording exists for every requested document. Treat an unambiguous request to produce final files from the current complete wording as approval. If the approved snapshot is missing but the current task contains the complete wording, save that exact wording as `approved_application_wording.md` before production. Stop if wording is missing, partial, conditional, or ambiguous.
+1. Read `AGENTS.md`, the target application record, writing and file preferences, authoritative document sources, and `approved_application_wording.md`.
+2. Confirm complete wording exists for every requested document. A clear request to produce final files from the current complete wording is approval. If the exact current wording is present in the task but the snapshot is missing, save it as `approved_application_wording.md` and record per-document approval before producing files. Stop when wording is missing, partial, conditional, or ambiguous.
 
 ## Production
 
-1. If `sources/authoritative/master_resume.docx` exists, duplicate it to a temporary working file and preserve its visual system. If it does not exist, create the document from approved wording and the approved resume preferences.
-2. Create only the requested file formats. Prefer PDF for final application delivery and retain DOCX only when requested or selected in the candidate profile.
-3. Make no substantive wording changes. Return any layout-driven wording change to the user for approval.
-4. Rerun the literal and semantic cross-application contamination check against the approved wording before production. Stop if the target company, role, or employer-specific facts do not match the verified application record.
-5. Use available document and PDF tooling. Render and inspect every page when visual tools are available. If they are unavailable, state the limitation and do not claim visual verification.
-6. Check filenames, candidate contact details, employer, role, dates, links, page count, text completeness, stale placeholders, stale employer references, and document metadata. Compare the rendered result with the authoritative master or approved preferences. Inspect font metadata when visual differences suggest substitution.
-7. Store final files in the permanent `applications/<company>/` folder. Do not move the folder when status changes. Preserve every review and wording record. Use a filesystem-safe candidate name, company, role, and document type in filenames.
-8. Update the application record and `applications.csv` to status `Files produced` with the production date, final filenames, and permanent folder path. Update related job-search records when they track application status.
-9. Do not track Ready to apply, Submitted, or Applied as separate project states. Do not claim to have submitted the application.
-10. Return clickable links to the files, permanent containing folder, and verified official application URL.
+1. Recheck the approved wording for literal and semantic cross-application contamination. Stop if target identity or employer-specific facts do not match the verified record.
+2. Duplicate each available authoritative master to a temporary working file. Preserve fonts, colors, margins, headers, footers, hierarchy, alignment, hyperlinks, and visual language. Never overwrite a master. If no approved master exists, follow the candidate's approved document preferences and available document tooling.
+3. Apply only approved wording using semantic document locations and employer blocks. Do not embed application prose in code, depend on brittle numeric paragraph positions, or create application-specific builders. Improve a reusable generator only when the approved structure genuinely requires it.
+4. Make no substantive wording changes. Return any layout-driven wording revision for approval.
+5. Use the approved filename convention. By default, use the candidate's full application name plus document type, such as `<Candidate Name> Resume.pdf` and `<Candidate Name> Cover Letter.pdf`, with matching DOCX names. Keep company and role in the folder and records, not filenames or metadata.
+6. Retain editable DOCX files with final PDFs unless the candidate explicitly selected another retention policy.
+7. Normalize personal-only metadata and remove stale company, role, tool, author, manager, custom, PDF Info, and XMP properties that conflict with the approved metadata policy. Preserve visible email and professional-profile text as live links.
+8. Export the requested files using available tooling. Keep diagnostic and temporary files outside permanent application folders when practical.
+9. Run deterministic, nonvisual validation for integrity, exact filenames, expected page counts, extracted text, approved-text coverage, candidate-selected punctuation rules, role anchors, live links, standard bullet extraction, personal-only metadata, and obvious wrong-company terms. Resolve errors and report every warning or incomplete check.
+10. Do not rasterize pages or claim AI visual QA unless the user requests it. When requested, render and inspect every page from the current working files. Deterministic validation does not prove visual quality.
+11. Save final files in `applications/<Company>/`. After successful production and validation, set status `Ready to apply` and update the targeted application record, `applications.csv`, related role record, serious-review summary when applicable, and concise search log. Do not record `Applied` until the user confirms submission.
+12. Use the recorded official application link. Do not reverify solely because production begins. Reverify only when the user asks, the role was never officially verified, the target is ambiguous, or there is concrete evidence its status changed.
+13. Return final file links, every warning or incomplete check, the official application link, and the permanent folder. Provide the actual files for the user's final visual review.
 
-Do not overwrite authoritative source files. Do not create final files from unapproved wording.
+Do not draft new wording, use unapproved edits, overwrite authoritative sources, or infer submission from file production.

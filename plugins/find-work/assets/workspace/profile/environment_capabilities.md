@@ -10,7 +10,9 @@
 - Rendered browser:
 - Scheduled tasks:
 - Document creation:
-- PDF rendering and inspection:
+- PDF export:
+- Deterministic document validation:
+- Page rendering for optional AI visual QA:
 - Microsoft Word:
 - LibreOffice:
 - Git:
