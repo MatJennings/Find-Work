@@ -34,12 +34,12 @@ No API key is required for local source intake, career interviews, drafting, and
 
 - `$setup-job-search` creates or migrates the private workspace and records available capabilities.
 - `$build-career-foundation` reconciles chronology, evidence, disclosure limits, target preferences, and baseline writing preferences.
-- `$find-jobs` runs scoped quick, comprehensive, recurring, or portfolio-refresh searches and verifies plausible roles on official role-detail pages.
+- `$find-jobs` runs scoped quick, comprehensive, recurring, or portfolio-refresh searches and verifies plausible roles on employer detail pages or qualifying live intermediary listings.
 - `$review-job` evaluates one role, develops the company profile and match map, and updates durable records.
 - `$draft-application` presents complete editable wording in chat, checks cross-application contamination, and preserves only explicitly approved writing.
 - `$produce-files` creates approved files, runs deterministic nonvisual validation, sets `Ready to apply`, and waits for user confirmation before recording `Applied`.
 
-The workflow does not require an employer openings index to repeat a role that has a live official detail page and current application path. It does not reverify a posting merely because drafting or production begins. It does reverify when requested, when official verification never occurred, when the target is ambiguous, or when evidence suggests the posting changed.
+The workflow does not require an employer openings index to repeat a role that has a live official detail page and current application path. It does not reverify a posting merely because drafting or production begins. It does reverify when requested, when verification under the live role policy never occurred, when the target is ambiguous, or when evidence suggests the posting changed.
 
 ## One-source updates
 

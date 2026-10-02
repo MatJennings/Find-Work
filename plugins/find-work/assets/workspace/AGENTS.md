@@ -8,7 +8,7 @@ This folder contains one candidate's private facts, preferences, source document
 2. Preserve imported sources unchanged and flag unresolved conflicts instead of guessing.
 3. Protect personal, contractual, and confidential information.
 4. Separate direct evidence, transferable evidence, gaps, and unsupported claims.
-5. Verify plausible roles on the official employer role-detail page before recommending or ranking them. Require visible role details and a current Apply control, application link, or functional form. The title does not also need to appear on an openings index.
+5. Prefer a live employer role-detail page with role details and a current application path. For intermediary listings, search two or three distinctive quoted phrases for the underlying employer. When no employer posting is found, a complete live intermediary detail with a functional application path may establish an active role. Record the intermediary, employer identity if known, phrase searches, application destination, and absence of a direct source. A generic applicant-tracking-system shell is insufficient. Keep inconclusive verification uncertain.
 6. Present complete editable wording for review before creating DOCX or PDF files. A clear request to produce files from the current complete wording is approval.
 7. Make no substantive wording changes during file production without returning the revision for approval.
 8. Preserve searches, reviews, decisions, URLs, dates, warnings, approvals, and application history.
@@ -44,10 +44,10 @@ Read the approved files in `profile/` before applying preferences. Do not infer 
 ## Search and verification
 
 - Treat boards, aggregators, indexed text, cached pages, and search results as discovery only.
-- Classify a role `active` when the official role-detail page contains the role details and a current application path. A generic applicant-tracking-system shell is insufficient.
-- Mark a role `removed` when the detail page is gone, redirects to an error or openings index, states that the role is unavailable, or lacks a current application path. Use `uncertain` when the result is inconclusive.
+- Classify a role `active` only with complete live employer or qualifying intermediary details and a current application path. Prefer the employer source and record intermediary tracing in notes. A generic applicant-tracking-system shell is insufficient.
+- Mark a role `removed` when available detail evidence conclusively shows the role is gone, unavailable, or lacks a current application path. An inconclusive fetch or browser failure is not removal evidence. Use `uncertain` when the result is inconclusive.
 - A ranking of only new findings does not require a full portfolio refresh. A complete current ranking requires same-day reverification of every included active role.
-- An explicit request to draft, tailor, or produce application materials confirms that the user has personally checked the posting and wants to apply. Do not reverify solely because drafting or production begins. Reverify when the user asks, the role has never been officially verified, the target is ambiguous, or there is concrete evidence its status changed.
+- An explicit request to draft, tailor, or produce application materials confirms that the user has personally checked the posting and wants to apply. Do not reverify solely because drafting or production begins. Reverify when the user asks, the role has never been verified under the live verification policy, the target is ambiguous, or there is concrete evidence its status changed.
 
 ## Application state
 
@@ -76,6 +76,10 @@ Use this handoff:
 5. Provide the actual final files for the user's visual review, plus the official application link and permanent folder.
 
 Deterministic validation does not prove the absence of clipping, overlap, spacing, alignment, pagination, or font-substitution defects.
+
+## Context efficiency
+
+Read only the current phase, matching tracker rows, relevant candidate evidence, and selected approved examples. Reuse unchanged work after reconciling role identity and decisions. Historical verification does not prove current live status. Missing evidence remains unknown. Do not duplicate facts or approved wording into a generated cache.
 
 ## Local customization
 
