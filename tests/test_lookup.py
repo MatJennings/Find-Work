@@ -58,6 +58,11 @@ class LookupContracts(unittest.TestCase):
         self.assertEqual('Target context', next(f['text'] for f in files if f['path'].endswith('README.md')))
         self.assertNotIn('text', next(f for f in files if f['path'].endswith('approved_application_wording.md')))
 
+    def test_application_record_template_is_retrievable_without_loading_wording(self):
+        (self.root/'applications/Example Company/application_record.md').write_text('Outstanding question and approval scope')
+        report = lookup(self.root, {'company':'Example Company'}, include_context=True)
+        self.assertTrue(any(f.get('text') == 'Outstanding question and approval scope' for record in report['local_records'] for f in record['files']))
+
     def test_batch_shares_records_and_does_not_confuse_live_and_application_state(self):
         lead = dict(company='Example Company', role='Example Role', requisition_id='R1')
         report = lookup_discovery(self.root, [lead, lead])

@@ -2,7 +2,9 @@
 
 - Company:
 - Role:
-- Official URL:
+- Preferred application URL:
+- Source type, employer or intermediary:
+- Official URL, when available:
 - Requisition ID:
 - Corporate headquarters:
 - Date verified:

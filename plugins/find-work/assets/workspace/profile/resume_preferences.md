@@ -17,4 +17,6 @@
 - Metadata author and last editor: `<Full Application Name>`
 - Metadata keywords: `<Full Application Name>, Resume`
 - AI visual QA preference: user review by default; AI page inspection only when requested
+- Optional deeper drafting review: off unless requested or agreed for a repeated writing issue
+- Optional detailed learning records: off unless requested
 - Other rules:

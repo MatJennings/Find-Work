@@ -13,7 +13,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 ROOT = Path.cwd()
 TRACKERS = ("job_search/roles.csv", "applications.csv")
-RECORD_FILES = ("README.md", "role_review.md", "hook_decision_card.md",
+RECORD_FILES = ("README.md", "application_record.md", "role_review.md", "hook_decision_card.md",
                 "draft_learning_record.md", "approved_application_wording.md")
 
 
@@ -115,7 +115,7 @@ def local_records(root: Path, identities: set[tuple[str, str]], include_context:
                     if candidate.is_file():
                         file = inside(root, candidate)
                         entry = {"path": file.relative_to(root).as_posix()}
-                        if include_context and name in {"README.md", "role_review.md"}:
+                        if include_context and name in {"README.md", "application_record.md", "role_review.md"}:
                             raw = file.read_bytes()
                             entry.update(text=raw.decode("utf-8-sig"), sha256=hashlib.sha256(raw).hexdigest(), bytes_read=len(raw))
                         files.append(entry)

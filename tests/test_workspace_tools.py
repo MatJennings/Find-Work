@@ -45,6 +45,27 @@ class WorkspaceToolTests(unittest.TestCase):
         finally:
             shutil.rmtree(temporary, ignore_errors=True)
 
+    def test_current_migration_preserves_private_profiles_and_instructions(self):
+        temporary = self.test_temp / uuid.uuid4().hex
+        temporary.mkdir()
+        try:
+            target = temporary / "workspace"
+            self.assertEqual(0, self.run_script("create_workspace.py", "--target", str(target)).returncode)
+            custom = {
+                "AGENTS.md": "# Private local rules\nKeep intentional customization\n",
+                "profile/resume_preferences.md": "# Approved preferences\nKeep approved wording style\n",
+                "profile/job_target_profile.md": "# Approved target\nKeep intentional exclusions\n",
+            }
+            for relative, text in custom.items():
+                (target/relative).write_text(text, encoding="utf-8")
+            result = self.run_script("migrate_workspace.py", "--target", str(target))
+            self.assertEqual(0, result.returncode, result.stderr)
+            for relative,text in custom.items():
+                self.assertEqual(text, (target/relative).read_text(encoding="utf-8"))
+            self.assertEqual("3", (target/".find-work-version").read_text().strip())
+        finally:
+            shutil.rmtree(temporary, ignore_errors=True)
+
     def test_v2_files_produced_migrates_to_ready_to_apply(self) -> None:
         temporary = self.test_temp / uuid.uuid4().hex
         temporary.mkdir()

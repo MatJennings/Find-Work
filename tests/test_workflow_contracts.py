@@ -37,6 +37,17 @@ class WorkflowContracts(unittest.TestCase):
         self.assertIn('Do not infer capabilities from plan alone', setup)
         self.assertIn('report the incomplete migration', setup)
 
+    def test_optional_depth_does_not_add_default_overhead(self):
+        decisions = self.read('docs/OPTIONAL_FEATURE_DECISIONS.md')
+        for term in ('Independent drafting reviewer', 'Full first-to-final learning records', 'Workspace schema remains 3', 'never replaces existing profiles'):
+            self.assertIn(term, decisions)
+        drafting = (SKILLS/'draft-application/SKILL.md').read_text()
+        self.assertIn('Do not repeat an unchanged full evaluation', drafting)
+        self.assertIn('without a separate reviewer', drafting)
+        optional = (SKILLS/'draft-application/references/optional-depth.md').read_text()
+        self.assertIn('same context is not independent', optional)
+        self.assertIn('never career facts or production wording', optional)
+
     def test_generic_voice_and_scope_are_not_candidate_specific(self):
         policy = (SKILLS/'draft-application/references/evidence-led-bullets.md').read_text()
         self.assertIn('No separate reviewer or decision-card file is required', policy)

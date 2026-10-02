@@ -15,7 +15,7 @@ This is a one-time, reviewable migration. Do not apply it automatically.
    - creates blank approved resume-opening, cover-letter-opening, and application-answer libraries when missing,
    - preserves CSV backups before rewriting schemas,
    - stops rather than merging ambiguous company folders or unsupported tracker schemas.
-7. Review local `AGENTS.md` and preferences after migration. Migrations do not overwrite candidate-specific instructions, so copy in desired new generic policies deliberately.
+7. Review local `AGENTS.md` and preferences after migration, especially official-only role verification, old source-loading rules, and local copies that shadow plugin skills. Migrations do not overwrite candidate-specific instructions, so copy in desired new generic policies deliberately.
 8. Start a new task and test setup auditing, job search, role review, drafting, approval capture, file production, `Ready to apply`, and user-confirmed `Applied` against an existing application record.
 9. After migration, make reusable workflow changes only in the plugin repository. Make candidate-specific changes only in the private workspace.
 

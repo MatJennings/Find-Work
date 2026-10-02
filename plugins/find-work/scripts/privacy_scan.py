@@ -68,11 +68,21 @@ def scan_zip_bytes(
         issues.append(f"{label}: ZIP archive could not be unpacked")
 
 
+def scan_history_text(text, forbidden, issues, allow_git_identity_metadata=False):
+    if allow_git_identity_metadata:
+        text = "\n".join(
+            "" if re.match(r"^(Author|Commit):\s", line) else line
+            for line in text.splitlines()
+        )
+    scan_text("git history", text, forbidden, issues)
+
+
 def scan_git(
     root: Path,
     forbidden: list[tuple[str, re.Pattern[str]]],
     issues: list[str],
     allow_binary_artifacts: bool,
+    allow_git_identity_metadata: bool = False,
 ) -> None:
     git_dir = root / ".git"
     if not git_dir.exists():
@@ -91,7 +101,7 @@ def scan_git(
     if result.returncode != 0:
         issues.append(f"git history: could not inspect commit metadata ({result.stderr.strip()})")
         return
-    scan_text("git history", result.stdout, forbidden, issues)
+    scan_history_text(result.stdout, forbidden, issues, allow_git_identity_metadata)
 
     objects = subprocess.run(
         ["git", "-C", str(root), "rev-list", "--objects", "--all"],
@@ -155,6 +165,7 @@ def main() -> int:
     parser.add_argument("--forbid", action="append", default=[])
     parser.add_argument("--allow-binary-artifacts", action="store_true")
     parser.add_argument("--check-git-history", action="store_true")
+    parser.add_argument("--allow-git-identity-metadata", action="store_true", help="After reviewing public attribution, exempt only Git Author and Commit headers, never messages, paths or file contents")
     args = parser.parse_args()
     root = args.root.expanduser().resolve()
     issues: list[str] = []
@@ -185,7 +196,7 @@ def main() -> int:
             issues.append(f"{relative}: could not inspect ({exc})")
 
     if args.check_git_history:
-        scan_git(root, forbidden, issues, args.allow_binary_artifacts)
+        scan_git(root, forbidden, issues, args.allow_binary_artifacts, args.allow_git_identity_metadata)
 
     if issues:
         print("Privacy scan failed:", file=sys.stderr)

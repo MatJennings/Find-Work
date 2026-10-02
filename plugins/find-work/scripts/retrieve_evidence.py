@@ -13,6 +13,8 @@ def retrieve(root, source, sections=(), *, catalog=False, claim_ids=()):
     result = {'version':1, 'complete':False, 'sources':sources, 'warnings':warnings, 'claims':claims, 'excerpts':[]}
     try:
         lines, metadata = read_source(root, source, ('experience/employers/', 'sources/authoritative/'), ('.md', '.txt'))
+        if Path(metadata['path']).name in {'approved_resume_openings.md', 'approved_cover_letter_openings.md', 'approved_application_answers.md'}:
+            raise ValueError('Approved writing libraries are style references, not factual evidence')
         sources.append(metadata)
     except (OSError, ValueError) as exc:
         warnings.append(str(exc))

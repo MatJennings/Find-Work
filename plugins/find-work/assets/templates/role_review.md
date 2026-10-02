@@ -2,7 +2,13 @@
 
 ## Verification
 
-- Official role-detail URL:
+- Preferred role-detail URL, employer when available:
+- Source type, employer or intermediary:
+- Intermediary and discovery URL, if applicable:
+- Employer identity, if known:
+- Employer phrase searches and absence of direct source, if applicable:
+- Application destination:
+- Official role-detail URL, when available:
 - Requisition ID:
 - Date verified:
 - Verification method:
@@ -39,6 +45,13 @@ Apply | Research Further | Maybe | Reject
 
 | Requirement or responsibility | Direct evidence | Transferable evidence | Gap or risk | Prohibited or unsupported claim |
 |---|---|---|---|---|
+
+## Application argument
+
+- Employer's core need:
+- Strongest supported proof points:
+- Central concern or unknown:
+- Resume and requested cover-letter priorities:
 
 ## Drafting notes
 

@@ -65,7 +65,7 @@ Schema version 3 adds the complete `Ready to apply` and user-confirmed `Applied`
 
 ## Live setup and validation
 
-The default target is the ChatGPT desktop app with a private local folder. Use the [live setup checklist](docs/LIVE_SETUP_CHECKLIST.md) during ordinary onboarding and record concrete feedback. Targeted helper and workflow tests are documented in [validation](docs/VALIDATION.md). Actual Free-account completion and usage savings have not yet been measured.
+The default target is the ChatGPT desktop app with a private local folder. Use the [live setup checklist](docs/LIVE_SETUP_CHECKLIST.md) during ordinary onboarding and record concrete feedback. Targeted helper and workflow tests are documented in [validation](docs/VALIDATION.md). Actual Free-account completion and usage savings have not yet been measured. See [default and optional-feature decisions](docs/OPTIONAL_FEATURE_DECISIONS.md) for what is included, deferred, and candidate-specific. Source version 0.4.0 retains workspace schema 3 and does not rewrite private profiles or instructions.
 
 ## Privacy
 

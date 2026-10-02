@@ -63,6 +63,12 @@ class RetrievalContracts(unittest.TestCase):
         self.assertEqual([],report['claims'])
         self.assertEqual([],report['excerpts'])
 
+    def test_approved_writing_is_rejected_as_factual_evidence(self):
+        report = evidence(self.root,self.library)
+        self.assertFalse(report['complete'])
+        self.assertEqual([],report['excerpts'])
+        self.assertIn('style references', ' '.join(report['warnings']))
+
     def test_path_escape_is_rejected(self):
         report = evidence(self.root,'../outside.md')
         self.assertFalse(report['complete'])

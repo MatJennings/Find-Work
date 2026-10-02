@@ -39,5 +39,9 @@
 ## Adjacent roles worth considering
 
 
+## Search scope preferences
+
+Optional source priorities, bounded quick-search scope, and comprehensive-search expectations. No universal employer quota or sector queue. Leave blank until useful.
+
 ## Ranking priorities
 
