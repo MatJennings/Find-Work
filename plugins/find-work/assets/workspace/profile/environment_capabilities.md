@@ -1,5 +1,10 @@
 # Environment Capabilities
 
+- App surface:
+- Account plan, if known:
+- Plugin version:
+- Workspace schema:
+- Python or bundled runtime:
 - Operating system:
 - ChatGPT desktop app available:
 - Local file access:

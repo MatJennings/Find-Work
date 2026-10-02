@@ -28,6 +28,15 @@ class WorkflowContracts(unittest.TestCase):
         for term in ('Make no substantive wording changes', 'Ready to apply', 'Do not record `Applied` until the user confirms submission', 'Do not rasterize pages', 'Do not load historical writing libraries'):
             self.assertIn(term, policy)
 
+    def test_live_trial_is_deferred_and_missing_capabilities_are_explicit(self):
+        checklist = self.read('docs/LIVE_SETUP_CHECKLIST.md')
+        self.assertIn('not observed, never passed', checklist)
+        self.assertIn('remain untested until observed live', checklist)
+        setup = (SKILLS/'setup-job-search/SKILL.md').read_text()
+        self.assertIn('If no Python runtime exists', setup)
+        self.assertIn('Do not infer capabilities from plan alone', setup)
+        self.assertIn('report the incomplete migration', setup)
+
     def test_generic_voice_and_scope_are_not_candidate_specific(self):
         policy = (SKILLS/'draft-application/references/evidence-led-bullets.md').read_text()
         self.assertIn('No separate reviewer or decision-card file is required', policy)

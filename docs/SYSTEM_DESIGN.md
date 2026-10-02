@@ -25,4 +25,4 @@ No browsing, API key, Git, Word, or LibreOffice is required for evidence intervi
 
 ## Validation
 
-Run `python -m unittest discover -s tests`, `python evals/run_evals.py`, and `python plugins/find-work/scripts/validate_plugin.py`. Tests use synthetic fixtures to check helpers, workspace creation, migrations and workflow contracts. Privacy scans include the working tree and Git history before publishing. These checks do not measure autonomous agent quality, billed usage or Free-account completion.
+Run `python -m unittest discover -s tests`, `python evals/run_evals.py`, and `python plugins/find-work/scripts/validate_plugin.py`. Tests use synthetic fixtures to check helpers, workspace creation, migrations and workflow contracts. Privacy scans include the working tree and Git history before publishing. These checks do not measure autonomous agent quality, billed usage or Free-account completion. The live setup checklist records actual observations and leaves unexercised phases untested. No simulated end-to-end trial is required. Feedback drives subsequent generic revisions.

@@ -63,6 +63,10 @@ A customized workspace should override the plugin through local instructions and
 
 Schema version 3 adds the complete `Ready to apply` and user-confirmed `Applied` lifecycle, per-document status, submission and follow-up dates, reusable approved-writing libraries, personal-only filename and metadata preferences, and deterministic nonvisual QA guidance. It migrates the former `Files produced` state to `Ready to apply` without claiming submission.
 
+## Live setup and validation
+
+The default target is the ChatGPT desktop app with a private local folder. Use the [live setup checklist](docs/LIVE_SETUP_CHECKLIST.md) during ordinary onboarding and record concrete feedback. Targeted helper and workflow tests are documented in [validation](docs/VALIDATION.md). Actual Free-account completion and usage savings have not yet been measured.
+
 ## Privacy
 
 Do not put real candidate data in this repository. Keep it in the separate private workspace. Before distributing a release, scan the working tree and Git history:
