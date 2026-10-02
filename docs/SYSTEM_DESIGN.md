@@ -13,7 +13,7 @@ The shared plugin contains reusable behavior, blank assets, and read-only helper
 | Produce | Exact approved wording, target records, preferences and masters | Exact text, file validation, Ready to apply only |
 | Resume or submission | Matching records and latest user instruction | Outstanding questions and user-confirmed submission |
 
-Lookup returns complete matching rows, diagnostics and provenance. It never decides verification, approval, disclosure, or submission. Batch discovery reads each tracker once. Reuse requires reconciled role identity and unchanged relevant work. New sessions and lost context require targeted reads. There is no generated duplicate fact cache.
+Lookup returns complete matching rows, diagnostics and provenance. It never decides verification, approval, disclosure, or submission. Batch discovery reads each tracker once. Reuse requires reconciled role identity and unchanged relevant work. New sessions and lost context require targeted reads. There is no generated duplicate fact cache. Evidence retrieval selects current controlling text with complete topic and disclosure guards, related claim rows, confidentiality policy, hashes and line spans. Writing retrieval returns complete selected examples and related versions without granting approval. Optional source checks establish byte freshness only. Helpers require an explicit workspace root and the Python standard library, with manual targeted-read fallbacks.
 
 ## Trust and capability boundaries
 

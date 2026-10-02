@@ -7,7 +7,7 @@ description: Import, reconcile, verify, and expand a candidate's work history fr
 
 ## Context
 
-1. Read `AGENTS.md`, `profile/onboarding_status.md`, and the existing files under `profile/`, `experience/`, and `sources/imported/`.
+1. Read `AGENTS.md`, `profile/onboarding_status.md`, and only the matching profile, employer, evidence-ledger and import-index records needed for the current onboarding step. Inventory filenames before loading source bodies.
 2. Read only the sources relevant to the current employer, conflict, or profile decision. Preserve original imports unchanged.
 
 ## Build the evidence base
@@ -16,7 +16,7 @@ description: Import, reconcile, verify, and expand a candidate's work history fr
 2. Extract employers, roles, dates, responsibilities, accomplishments, metrics, products, methods, education, and credentials. Cite supporting filenames in `experience/evidence_ledger.csv`.
 3. Present conflicts and missing dates. Do not silently reconcile them.
 4. Interview the user about one employer or substantial engagement at a time. Ask a small set of useful questions covering the problem, the candidate's role, actions, collaborators, scope, outcome, evidence, confidentiality, and possible interview stories.
-5. Store durable employer context under `experience/employers/<employer-slug>.md`. Update chronology and the evidence ledger as facts are clarified.
+5. Use the shared employer-context template for new structured records, preserving original sources and existing records. Store durable employer context under `experience/employers/<employer-slug>.md`. Update chronology and the evidence ledger as facts are clarified.
 6. Give every claim both an evidence status and a disclosure status. Never describe user attestation alone as independent verification.
 7. For a high-value claim that is not approved for external use, identify the strongest defensible alternative and record whether public corroboration, user approval, or legal review is needed.
 
