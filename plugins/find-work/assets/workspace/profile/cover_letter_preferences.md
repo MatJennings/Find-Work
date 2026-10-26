@@ -1,9 +1,12 @@
 # Cover-Letter Preferences
 
 - Authoritative cover-letter master path:
-- Preferred length:
+- Preferred length: default three short body paragraphs of about 175 to 300 words
+- Preferred shape: default problem and interest, approach, one proof point
 - Tone:
 - Preferred opening style:
+- Banned openings or phrases:
+- Related-positions closing sentence when the employer has similar openings: no unless changed
 - Role-title or `Re:` line format:
 - Preferred closing style:
 - Formatting:
@@ -18,4 +21,6 @@
 - Metadata author and last editor: `<Full Application Name>`
 - Metadata keywords: `<Full Application Name>, Cover Letter`
 - AI visual QA preference: user review by default; AI page inspection only when requested
+- Clarity script flags, such as `--no-em-dash`, `--no-semicolon` or `--no-colon`:
+- Deep letter review: off unless turned on. Needs separate agents and substantial plan usage. Optional scope, such as highest-fit roles only:
 - Other rules:

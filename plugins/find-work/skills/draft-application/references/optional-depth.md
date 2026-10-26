@@ -6,4 +6,6 @@ A separate reviewer is optional. If used, supply the role context, supported evi
 
 Detailed decision cards or full first-to-final learning records are optional and belong in the private application folder. Preserve unapproved and superseded labels. Do not save intermediate full drafts by default. They are process evidence, never career facts or production wording. Concise lessons usually belong in the existing approved-writing entry or application record.
 
+For cover letters, the opt-in multi-agent procedure is [deep letter review](deep-letter-review.md). It is not expected to fit a free plan.
+
 Do not turn requested deeper review into mandatory paid tools, model selection, or autonomous delegation. Review depth never expands disclosure, wording approval or submission authority.

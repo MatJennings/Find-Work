@@ -13,7 +13,7 @@ python plugins/find-work/scripts/privacy_scan.py . --check-git-history
 git diff --check
 ```
 
-The unittest suite creates and validates a synthetic workspace, checks versioned migration and preserved backups, runs read-only lookup and retrieval tests, and checks documented behavioral boundaries. This fixture use is targeted testing, not a full workflow run-through. The contract runner repeats only the workflow and retrieval contract subset for maintainers who changed policy.
+The unittest suite also runs the letter clarity script against synthetic letters. It creates and validates a synthetic workspace, checks versioned migration and preserved backups, runs read-only lookup and retrieval tests, and checks documented behavioral boundaries. This fixture use is targeted testing, not a full workflow run-through. The contract runner repeats only the workflow and retrieval contract subset for maintainers who changed policy.
 
 The plugin validator checks manifest and marketplace linkage, every skill's required frontmatter and UI-file presence, and bundled relative Markdown links. When the Codex skill-creator validator is available, run its quick_validate.py against each skill as an additional frontmatter check. These do not establish successful runtime installation. Privacy scanning is heuristic and does not establish absence of all confidential information.
 

@@ -4,6 +4,7 @@
 - Optional visual-reference PDF path:
 - Preferred length:
 - Preferred opening or summary style:
+- Banned openings or phrases:
 - Section order:
 - Formatting preferences:
 - Punctuation preferences:
@@ -19,4 +20,5 @@
 - AI visual QA preference: user review by default; AI page inspection only when requested
 - Optional deeper drafting review: off unless requested or agreed for a repeated writing issue
 - Optional detailed learning records: off unless requested
+- Page breaks: never split a bullet across pages unless changed below
 - Other rules:

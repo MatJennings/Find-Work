@@ -7,7 +7,7 @@ description: Import, reconcile, verify, and expand a candidate's work history fr
 
 ## Context
 
-1. Read `AGENTS.md`, `profile/onboarding_status.md`, and only the matching profile, employer, evidence-ledger and import-index records needed for the current onboarding step. Inventory filenames before loading source bodies.
+1. Use the already-loaded `AGENTS.md` without re-reading it. Read `profile/onboarding_status.md`, and only the matching profile, employer, evidence-ledger and import-index records needed for the current onboarding step. Inventory filenames before loading source bodies.
 2. Read only the sources relevant to the current employer, conflict, or profile decision. Preserve original imports unchanged.
 
 ## Build the evidence base

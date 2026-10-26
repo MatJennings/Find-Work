@@ -81,6 +81,8 @@ Deterministic validation does not prove the absence of clipping, overlap, spacin
 
 Read only the current phase, matching tracker rows, relevant candidate evidence, and selected approved examples. Reuse unchanged work after reconciling role identity and decisions. Historical verification does not prove current live status. Missing evidence remains unknown. Do not duplicate facts or approved wording into a generated cache.
 
+This file loads automatically. Do not re-read it, or a skill file already loaded in this task, because every re-read re-sends context and spends plan usage. Read large files in parts. Some tools silently cut the middle out of a long read, so confirm a read reached the end of the section you need before relying on it.
+
 ## Local customization
 
 Add candidate-specific durable rules below this heading. Do not copy or rewrite shared plugin workflows here.

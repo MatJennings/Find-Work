@@ -19,7 +19,7 @@ Lookup returns complete matching rows, diagnostics and provenance. It never deci
 
 Employer detail and application paths are preferred. Complete live intermediary paths may qualify after employer tracing. Historical status is not a live check. Missing or blocked evidence remains uncertain. No-match retrieval does not prove lack of candidate experience.
 
-Evidence and disclosure are independent. Approved examples supply style, not new career facts or approval for a new application. Production consumes only exact approved wording and never silently changes it. Successful file validation sets Ready to apply, while Applied requires user confirmation.
+Evidence and disclosure are independent. Approved examples supply style, not new career facts or approval for a new application. Drafting chooses the argument before the proof and an opening thesis before writing a letter, in the current context. Deep letter review is an opt-in multi-agent path for capable plans. Production consumes only exact approved wording and never silently changes it. Successful file validation sets Ready to apply, while Applied requires user confirmation.
 
 No browsing, API key, Git, Word, or LibreOffice is required for evidence interviews or in-chat drafting. Use available tools for exports and report unavailable checks honestly. Deterministic validation does not prove visual layout. AI visual QA is optional. Shared changes do not overwrite existing private instructions during migration.
 

@@ -53,3 +53,52 @@ class WorkflowContracts(unittest.TestCase):
         self.assertIn('No separate reviewer or decision-card file is required', policy)
         self.assertIn('candidate-specific', policy)
         self.assertIn('Never invent metrics', policy)
+
+class WritingQualityContracts(unittest.TestCase):
+    def read(self, relative):
+        return (ROOT / relative).read_text(encoding='utf-8')
+
+    def test_default_letter_craft_is_single_context(self):
+        craft = (SKILLS/'draft-application/references/cover-letter-craft.md').read_text(encoding='utf-8')
+        for term in ('Argument before proof', 'three genuinely different opening theses', 'Provability',
+                     'One proof point', 'Read-aloud check', 'no extra agents', 'not an independent review',
+                     'check_letter_clarity.py'):
+            self.assertIn(term, craft)
+        drafting = (SKILLS/'draft-application/SKILL.md').read_text(encoding='utf-8')
+        self.assertIn('references/cover-letter-craft.md', drafting)
+        self.assertIn('references/opening-quality.md', drafting)
+
+    def test_opening_quality_tests(self):
+        opening = (SKILLS/'draft-application/references/opening-quality.md').read_text(encoding='utf-8')
+        for term in ('Concrete payoff', 'One thread', 'Not the posting', 'Banned openings', 'Cold read', 'no separate reviewer'):
+            self.assertIn(term, opening)
+
+    def test_deep_letter_review_is_opt_in_and_bounded(self):
+        deep = (SKILLS/'draft-application/references/deep-letter-review.md').read_text(encoding='utf-8')
+        for term in ('Off by default', 'not expected to fit a free plan', 'same-context review is never independent',
+                     'END OF PACKET FILE', 'at most two revisions', 'Never rotate agents', 'never approved wording'):
+            self.assertIn(term, deep)
+        prefs = self.read('plugins/find-work/assets/workspace/profile/cover_letter_preferences.md')
+        self.assertIn('Deep letter review: off unless turned on', prefs)
+        decisions = self.read('docs/OPTIONAL_FEATURE_DECISIONS.md')
+        self.assertIn('Deep letter review', decisions)
+
+    def test_skills_do_not_reread_loaded_instructions(self):
+        for name in ('find-jobs', 'review-job', 'draft-application', 'produce-files', 'build-career-foundation'):
+            text = (SKILLS/name/'SKILL.md').read_text(encoding='utf-8')
+            self.assertIn('already-loaded `AGENTS.md` without re-reading it', text, name)
+        workspace = self.read('plugins/find-work/assets/workspace/AGENTS.md')
+        self.assertIn('Do not re-read it', workspace)
+
+    def test_search_and_production_rules(self):
+        find = (SKILLS/'find-jobs/SKILL.md').read_text(encoding='utf-8')
+        for term in ('not title alone', 'hard rules as screens', 'make the title a link'):
+            self.assertIn(term, find)
+        produce = (SKILLS/'produce-files/SKILL.md').read_text(encoding='utf-8')
+        self.assertIn('never let a bullet split across pages', produce)
+        self.assertIn('propose the smallest fix for approval', produce)
+
+    def test_form_defaults_require_confirmation(self):
+        answers = self.read('plugins/find-work/assets/workspace/sources/authoritative/approved_application_answers.md')
+        for term in ('explicitly confirms', 'Leave a question blank until confirmed', 'never establishes citizenship'):
+            self.assertIn(term, answers)
